@@ -16,7 +16,7 @@ static int borderpx = 2;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/sh";
+static char *shell = "/bin/zsh";
 char *utmp = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
@@ -88,29 +88,51 @@ float alpha = 1.0;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 
-  /* 8 normal colors */
-  [0] = "#101010", /* black   */
-  [1] = "#f07178", /* red     */
-  [2] = "#c3e88d", /* green   */
-  [3] = "#ffcb6b", /* yellow  */
-  [4] = "#82aaff", /* blue    */
-  [5] = "#c792ea", /* magenta */
-  [6] = "#89ddff", /* cyan    */
-  [7] = "#d0d0d0", /* white   */
+  [0] = "#101010",
+  [1] = "#c3272b",
+  [2] = "#825300",
+  [3] = "#7d653a",
+  [4] = "#a56e39",
+  [5] = "#6a4730",
+  [6] = "#ca6924",
+  [7] = "#cdb494",
 
-  /* 8 bright colors */
-  [8]  = "#434758", /* black   */
-  [9]  = "#ff8b92", /* red     */
-  [10] = "#ddffa7", /* green   */
-  [11] = "#ffe585", /* yellow  */
-  [12] = "#9cc4ff", /* blue    */
-  [13] = "#e1acff", /* magenta */
-  [14] = "#a3f7ff", /* cyan    */
-  [15] = "#ffffff", /* white   */
+  [8]  = "#525252",
+  [9]  = "#ff666a",
+  [10] = "#c57e00",
+  [11] = "#ffce76",
+  [12] = "#ffaa58",
+  [13] = "#dc9363",
+  [14] = "#ff852d",
+  [15] = "#fcc989",
 
-  /* special colors */
-  [256] = "#292d3e", /* background */
-  [257] = "#bbc5ff", /* foreground */
+  // bg
+  [256] = "#121010",
+  // fg
+  [257] = "#eaccae",
+
+  // [0] = "#101010",
+  // [1] = "#f07178",
+  // [2] = "#c3e88d",
+  // [3] = "#ffcb6b",
+  // [4] = "#82aaff",
+  // [5] = "#c792ea",
+  // [6] = "#89ddff",
+  // [7] = "#d0d0d0",
+  //
+  // [8]  = "#434758",
+  // [9]  = "#ff8b92",
+  // [10] = "#ddffa7",
+  // [11] = "#ffe585",
+  // [12] = "#9cc4ff",
+  // [13] = "#e1acff",
+  // [14] = "#a3f7ff",
+  // [15] = "#ffffff",
+  //
+  // // bg
+  // [256] = "#292d3e",
+  // // fg
+  // [257] = "#bbc5ff",
 };
 
 /*
