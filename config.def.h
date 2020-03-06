@@ -90,34 +90,34 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.8;
+float alpha = 1.0;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 
   /* 8 normal colors */
-  [0] = "#000000", /* black   */
-  [1] = "#ff5555", /* red     */
-  [2] = "#50fa7b", /* green   */
-  [3] = "#f1fa8c", /* yellow  */
-  [4] = "#bd93f9", /* blue    */
-  [5] = "#ff79c6", /* magenta */
-  [6] = "#8be9fd", /* cyan    */
-  [7] = "#bbbbbb", /* white   */
+  [0] = "#101010",
+  [1] = "#c3272b",
+  [2] = "#825300",
+  [3] = "#7d653a",
+  [4] = "#a56e39",
+  [5] = "#6a4730",
+  [6] = "#ca6924",
+  [7] = "#cdb494",
 
   /* 8 bright colors */
-  [8]  = "#44475a", /* black   */
-  [9]  = "#ff5555", /* red     */
-  [10] = "#50fa7b", /* green   */
-  [11] = "#f1fa8c", /* yellow  */
-  [12] = "#bd93f9", /* blue    */
-  [13] = "#ff79c6", /* magenta */
-  [14] = "#8be9fd", /* cyan    */
-  [15] = "#ffffff", /* white   */
+  [8]  = "#525252",
+  [9]  = "#ff666a",
+  [10] = "#c57e00",
+  [11] = "#ffce76",
+  [12] = "#ffaa58",
+  [13] = "#dc9363",
+  [14] = "#ff852d",
+  [15] = "#fcc989",
 
   /* special colors */
-  [256] = "#282a36", /* background */
-  [257] = "#f8f8f2", /* foreground */
+  [256] = "#121010",
+  [257] = "#eaccae",
 };
 
 /*
@@ -178,6 +178,8 @@ static uint forcemousemod = ShiftMask;
  */
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
+	{ XK_ANY_MOD,           Button4, kscrollup,      {.i = 1},      0, /* !alt */ -1 },
+	{ XK_ANY_MOD,           Button5, kscrolldown,    {.i = 1},      0, /* !alt */ -1 },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
 	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
@@ -203,6 +205,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
+	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 };
 
 /*

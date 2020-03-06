@@ -16,7 +16,7 @@ static int borderpx = 2;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/bin/zsh";
+static char *shell = "/bin/sh";
 char *utmp = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
@@ -88,6 +88,7 @@ float alpha = 1.0;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 
+  /* 8 normal colors */
   [0] = "#101010",
   [1] = "#c3272b",
   [2] = "#825300",
@@ -97,6 +98,7 @@ static const char *colorname[] = {
   [6] = "#ca6924",
   [7] = "#cdb494",
 
+  /* 8 bright colors */
   [8]  = "#525252",
   [9]  = "#ff666a",
   [10] = "#c57e00",
@@ -106,33 +108,9 @@ static const char *colorname[] = {
   [14] = "#ff852d",
   [15] = "#fcc989",
 
-  // bg
+  /* special colors */
   [256] = "#121010",
-  // fg
   [257] = "#eaccae",
-
-  // [0] = "#101010",
-  // [1] = "#f07178",
-  // [2] = "#c3e88d",
-  // [3] = "#ffcb6b",
-  // [4] = "#82aaff",
-  // [5] = "#c792ea",
-  // [6] = "#89ddff",
-  // [7] = "#d0d0d0",
-  //
-  // [8]  = "#434758",
-  // [9]  = "#ff8b92",
-  // [10] = "#ddffa7",
-  // [11] = "#ffe585",
-  // [12] = "#9cc4ff",
-  // [13] = "#e1acff",
-  // [14] = "#a3f7ff",
-  // [15] = "#ffffff",
-  //
-  // // bg
-  // [256] = "#292d3e",
-  // // fg
-  // [257] = "#bbc5ff",
 };
 
 /*
@@ -193,6 +171,8 @@ static uint forcemousemod = ShiftMask;
  */
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
+	{ XK_ANY_MOD,           Button4, kscrollup,      {.i = 1},      0, /* !alt */ -1 },
+	{ XK_ANY_MOD,           Button5, kscrolldown,    {.i = 1},      0, /* !alt */ -1 },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
 	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
@@ -216,6 +196,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
+	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 };
 
 /*
