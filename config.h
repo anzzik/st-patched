@@ -20,13 +20,15 @@ static int borderpx = 2;
 /*
  * What program is execed by st depends of these precedence rules:
  * 1: program passed with -e
- * 2: utmp option
+ * 2: scroll and/or utmp
  * 3: SHELL environment variable
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
 static char *shell = "/bin/sh";
 char *utmp = NULL;
+/* scroll program: to enable use a string like "scroll" */
+char *scroll = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
 /* identification sequence returned in DA and DECID */
@@ -50,9 +52,14 @@ static unsigned int tripleclicktimeout = 600;
 /* alt screens */
 int allowaltscreen = 1;
 
-/* frames per second st should at maximum draw to the screen */
-static unsigned int xfps = 120;
-static unsigned int actionfps = 30;
+/*
+ * draw latency range in ms - from new content/keypress/etc until drawing.
+ * within this range, st draws when content stops arriving (idle). mostly it's
+ * near minlatency, but it waits longer for slow updates to avoid partial draw.
+ * low minlatency will tear/flicker more, as it can "detect" idle too early.
+ */
+static double minlatency = 8;
+static double maxlatency = 33;
 
 /*
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
@@ -93,7 +100,7 @@ char *termname = "xterm-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 1.0;
+float alpha = 0.95, alphaUnfocused = 0.90;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -127,10 +134,21 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor
  */
+
+/* basic terminal text color */
 unsigned int defaultfg = 257;
-unsigned int defaultbg = 256;
+
+/* not sure where this is used */
+unsigned int defaultbg = 0;
+
+/* cursor color */
 static unsigned int defaultcs = 257;
-static unsigned int defaultrcs = 257;
+
+/* reverse cursor? not sure */
+static unsigned int defaultrcs = 4;
+
+/* terminal background color */
+unsigned int bg = 0, bgUnfocused = 0;
 
 /*
  * Colors used, when the specific fg == defaultfg. So in reverse mode this
@@ -183,8 +201,10 @@ static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
 	{ XK_ANY_MOD,           Button4, kscrollup,      {.i = 1},      0, /* !alt */ -1 },
 	{ XK_ANY_MOD,           Button5, kscrolldown,    {.i = 1},      0, /* !alt */ -1 },
+	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
 	{ XK_ANY_MOD,           Button2, clippaste,      {.i = 0},      1 },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
+	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
 	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
 };
 
