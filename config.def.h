@@ -100,7 +100,7 @@ char *termname = "xterm-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 1.0;
+float alpha = 0.95, alphaUnfocused = 0.90;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
@@ -134,10 +134,21 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor
  */
+
+/* basic terminal text color */
 unsigned int defaultfg = 257;
-unsigned int defaultbg = 256;
+
+/* not sure where this is used */
+unsigned int defaultbg = 0;
+
+/* cursor color */
 static unsigned int defaultcs = 257;
-static unsigned int defaultrcs = 257;
+
+/* reverse cursor? not sure */
+static unsigned int defaultrcs = 4;
+
+/* terminal background color */
+unsigned int bg = 0, bgUnfocused = 0;
 
 /*
  * Colors used, when the specific fg == defaultfg. So in reverse mode this
